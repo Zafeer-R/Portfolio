@@ -1,0 +1,92 @@
+.app {
+  --scroll-progress: 0;
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  background: radial-gradient(
+      1200px 600px at 20% -10%,
+      rgba(88, 148, 255, 0.2),
+      rgba(10, 12, 18, 0)
+    ),
+    radial-gradient(
+      1000px 600px at 90% 0%,
+      rgba(97, 214, 255, 0.15),
+      rgba(10, 12, 18, 0)
+    ),
+    linear-gradient(160deg, #0a0c12 0%, #0f1220 40%, #0b0e18 100%);
+}
+
+.app > .site-shell {
+  position: relative;
+  z-index: 2;
+}
+
+.app > .loader-screen {
+  position: fixed;
+  z-index: 30;
+}
+
+.app::before {
+  content: '';
+  position: absolute;
+  inset: -20% -20% auto -10%;
+  width: 70vw;
+  height: 70vw;
+  background:
+    radial-gradient(
+      circle,
+      rgba(112, 186, 255, 0.28) 0%,
+      rgba(10, 12, 18, 0) 68%
+    ),
+    radial-gradient(
+      circle at 75% 40%,
+      rgba(127, 124, 255, 0.23) 0%,
+      rgba(10, 12, 18, 0) 70%
+    );
+  opacity: calc(0.24 + (var(--scroll-progress) * 0.55));
+  filter: blur(calc(8px + (var(--scroll-progress) * 20px)));
+  transform: translateY(calc(var(--scroll-progress) * -36px));
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 180ms linear, filter 180ms linear, transform 180ms linear;
+}
+
+.app::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(rgba(152, 214, 255, 0.42) 2.7px, transparent 1.8px),
+    radial-gradient(rgba(126, 224, 255, 0.32) 2.5px, transparent 1.6px),
+    radial-gradient(rgba(255, 255, 255, 0.14) 1.5px, transparent 1.4px);
+  background-size: 124px 124px, 86px 86px, 52px 52px;
+  background-position: 0 0, 30px 20px, 8px 14px;
+  opacity: calc(0.34 + (var(--scroll-progress) * 0.3));
+  animation: float-dots 10s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+
+@keyframes float-dots {
+  0% {
+    background-position: 0 0, 30px 20px, 8px 14px;
+  }
+  50% {
+    background-position: -30px 42px, 60px -24px, -18px 48px;
+  }
+  100% {
+    background-position: -60px 84px, 90px -48px, -36px 96px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app::before {
+    transform: none;
+    filter: blur(10px);
+  }
+
+  .app::after {
+    animation: none;
+  }
+}
