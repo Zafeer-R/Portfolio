@@ -57,7 +57,7 @@ function Hero() {
       <div className="hero-content">
         <p className="hero-kicker">Portfolio Website</p>
         <h1 className="hero-title">
-          Building intelligent, cloud-native systems that transform data into
+          Building intelligent, cloud-native systems that transform data into 
           <span className="hero-accent">real-world impact</span>
         </h1>
         {/* <p className="hero-subtitle">
