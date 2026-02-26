@@ -1,6 +1,7 @@
 import './Projects.css'
 import { PROJECTS } from '../data/projects'
 
+
 function getTechInitials(name: string) {
   return name
     .split(' ')
