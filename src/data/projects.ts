@@ -25,7 +25,7 @@ export const PROJECTS: ProjectItem[] = [
       'An ML-powered system to align multi-year pipeline inspection data, track corrosion growth, and identify high-risk segments through feature matching and predictive analytics. Winner of TidalHack 2026.',
     imageUrl: tidalSS,
     codeUrl: 'https://github.com/Zafeer-R/Traceline-Anomaly-Detection',
-    demoUrl: 'https://lnkd.in/g222qniX',
+    demoUrl: 'http://tidalfrontend.s3-website-us-east-1.amazonaws.com/',
     technologies: [
       { name: 'Python', logoUrl: 'https://cdn.simpleicons.org/python/3776AB' },
       { name: 'AWS', logoUrl: 'https://cdn.simpleicons.org/amazonwebservices/FF9900' },
