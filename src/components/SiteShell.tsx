@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Hexagon } from 'lucide-react'
 import resumePdf from '../assets/Resume.pdf'
 import Hero from '../sections/Hero'
 // import Highlights from '../sections/Highlights' #Certificates section is currently hidden
@@ -30,7 +29,7 @@ function SiteShell({ isReady }: SiteShellProps) {
     <div className={`site-shell ${isReady ? 'is-ready' : 'is-loading'}`}>
       <header className={`site-header ${isHeaderScrolled ? 'is-scrolled' : ''}`}>
         <a className="brand brand-logo" href="#" aria-label="Go to home">
-          <Hexagon size={16} strokeWidth={2.3} />
+          <img src="/Logo_Current.svg" alt="Zafeer logo" />
         </a>
         <nav className="nav">
           {/* <a href="#certifications">C E R T I F I C A T I O N S</a> */}

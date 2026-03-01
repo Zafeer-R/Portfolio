@@ -4,17 +4,27 @@ import SiteShell from './components/SiteShell'
 import './App.css'
 
 const LOADER_DURATION_MS = 2000
+const LOADER_REVEAL_DURATION_MS = 900
+
+type LoaderPhase = 'intro' | 'reveal' | 'done'
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true)
+  const [loaderPhase, setLoaderPhase] = useState<LoaderPhase>('intro')
   const appRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    const timeoutId = window.setTimeout(() => {
-      setIsLoading(false)
+    const revealTimeoutId = window.setTimeout(() => {
+      setLoaderPhase('reveal')
     }, LOADER_DURATION_MS)
 
-    return () => window.clearTimeout(timeoutId)
+    const doneTimeoutId = window.setTimeout(() => {
+      setLoaderPhase('done')
+    }, LOADER_DURATION_MS + LOADER_REVEAL_DURATION_MS)
+
+    return () => {
+      window.clearTimeout(revealTimeoutId)
+      window.clearTimeout(doneTimeoutId)
+    }
   }, [])
 
   useEffect(() => {
@@ -60,8 +70,8 @@ function App() {
 
   return (
     <div className="app" ref={appRef}>
-      <SiteShell isReady={!isLoading} />
-      <LoaderScreen isVisible={isLoading} />
+      <SiteShell isReady={loaderPhase === 'done'} />
+      <LoaderScreen isVisible={loaderPhase !== 'done'} phase={loaderPhase} />
     </div>
   )
 }
