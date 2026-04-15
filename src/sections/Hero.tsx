@@ -39,14 +39,15 @@ function Hero() {
     }
 
     if (typingPhase === 'deleting') {
-      if (typedText.length > 0) {
-        timeoutId = window.setTimeout(() => {
+      timeoutId = window.setTimeout(() => {
+        if (typedText.length > 0) {
           setTypedText((prev) => prev.slice(0, -1))
-        }, 55)
-      } else {
+          return
+        }
+
         setActiveWordIndex((prev) => (prev + 1) % ROTATING_WORDS.length)
         setTypingPhase('typing')
-      }
+      }, typedText.length > 0 ? 55 : 0)
     }
 
     return () => window.clearTimeout(timeoutId)
