@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import resumePdf from '../assets/Resume.pdf'
+import Zafeer_Resume from '../assets/Zafeer_Resume.pdf'
 import Hero from '../sections/Hero'
 // import Highlights from '../sections/Highlights' #Certificates section is currently hidden
 import Experience from '../sections/Experience'
@@ -59,7 +59,7 @@ function SiteShell({ isReady }: SiteShellProps) {
           </a>
           <a
             className="mobile-resume-link"
-            href={resumePdf}
+            href={Zafeer_Resume}
             target="_blank"
             rel="noreferrer"
             onClick={() => setIsMobileMenuOpen(false)}
@@ -69,7 +69,7 @@ function SiteShell({ isReady }: SiteShellProps) {
         </nav>
         <a
           className="primary-button"
-          href={resumePdf}
+          href={Zafeer_Resume}
           target="_blank"
           rel="noreferrer"
         >
