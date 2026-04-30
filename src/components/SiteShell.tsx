@@ -100,7 +100,7 @@ function SiteShell({ isReady }: SiteShellProps) {
       <footer className="social-footer">
         <div className="social-links">
           <a
-            href="https://www.linkedin.com/in/zafeerrangoonwala/"
+            href="https://www.linkedin.com/in/zafeerr/"
             target="_blank"
             rel="noreferrer"
           >

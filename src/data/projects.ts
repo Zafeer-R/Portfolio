@@ -1,3 +1,4 @@
+import kibanaSS from '../assets/KibanaSS.png'
 import potionWatch from '../assets/potionWatch.png'
 import serverless from '../assets/serverless.jpg'
 import tidalSS from '../assets/tidalSS.png'
@@ -18,6 +19,31 @@ export type ProjectItem = {
 }
 
 export const PROJECTS: ProjectItem[] = [
+  {
+    id: 'real-time-entity-intelligence-pipeline',
+    title: 'Real-Time Entity Intelligence Pipeline',
+    description:
+      'Built an end-to-end streaming data pipeline that ingests live financial and news articles, publishes raw events to Kafka, processes them with PySpark Structured Streaming, extracts named entities using spaCy, computes rolling mention counts, indexes the results in Elasticsearch via Logstash, and visualizes top entities in a live Kibana dashboard.',
+    imageUrl: kibanaSS,
+    codeUrl: 'https://github.com/Zafeer-R/SignalTrace',
+    technologies: [
+      { name: 'Python', logoUrl: 'https://cdn.simpleicons.org/python/3776AB' },
+      { name: 'Kafka', logoUrl: 'https://cdn.simpleicons.org/apachekafka/231F20' },
+      { name: 'PySpark', logoUrl: 'https://cdn.simpleicons.org/apachespark/E25A1C' },
+      { name: 'spaCy', logoUrl: 'https://cdn.simpleicons.org/spacy/09A3D5' },
+      { name: 'Logstash', logoUrl: 'https://cdn.simpleicons.org/logstash/005571' },
+      {
+        name: 'Elasticsearch',
+        logoUrl: 'https://cdn.simpleicons.org/elasticsearch/005571',
+      },
+      { name: 'Kibana', logoUrl: 'https://cdn.simpleicons.org/kibana/005571' },
+      {
+        name: 'Docker Compose',
+        logoUrl: 'https://cdn.simpleicons.org/docker/2496ED',
+      },
+      { name: 'WSL2' },
+    ],
+  },
   {
     id: 'traceline-pipeline-anomaly',
     title: 'Traceline - Pipeline Anomaly Detection',

@@ -24,7 +24,15 @@ function Projects() {
       <div className="projects-grid">
         {PROJECTS.length ? (
           PROJECTS.map((project) => (
-            <article className="project-card" key={project.id}>
+            <article
+              className={`project-card ${
+                project.id === 'traceline-pipeline-anomaly' ? 'project-card--winner' : ''
+              }`}
+              key={project.id}
+            >
+              {project.id === 'traceline-pipeline-anomaly' ? (
+                <span className="project-award-badge">Hackathon Winner</span>
+              ) : null}
               <div className="project-image-wrap">
                 <img
                   className="project-image"
