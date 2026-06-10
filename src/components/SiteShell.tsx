@@ -3,6 +3,7 @@ import Zafeer_Resume from '../assets/Zafeer_Resume.pdf'
 import Hero from '../sections/Hero'
 // import Highlights from '../sections/Highlights' #Certificates section is currently hidden
 import Experience from '../sections/Experience'
+import Skills from '../sections/Skills'
 import Projects from '../sections/Projects'
 import Contact from '../sections/Contact'
 import './SiteShell.css'
@@ -51,6 +52,9 @@ function SiteShell({ isReady }: SiteShellProps) {
           <a href="#experience" onClick={() => setIsMobileMenuOpen(false)}>
             E X P E R I E N C E
           </a>
+          <a href="#skills" onClick={() => setIsMobileMenuOpen(false)}>
+            S K I L L S
+          </a>
           <a href="#projects" onClick={() => setIsMobileMenuOpen(false)}>
             P R O J E C T S
           </a>
@@ -93,6 +97,7 @@ function SiteShell({ isReady }: SiteShellProps) {
         <Hero />
         {/* <Highlights /> #Certificates section is currently hidden */}
         <Experience />
+        <Skills />
         <Projects />
         <Contact />
       </main>

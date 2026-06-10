@@ -1,3 +1,5 @@
+import { getSkillIconUrl } from './skillIcons'
+
 export type ExperienceTechnology = {
   name: string
   logoUrl?: string
@@ -51,22 +53,21 @@ export const EXPERIENCES: ExperienceItem[] = [
     technologies: [
       {
         name: 'Windows Administration',
-        logoUrl: 'https://cdn.simpleicons.org/windows/0078D6',
+        logoUrl: getSkillIconUrl('Windows Administration'),
       },
       {
         name: 'Microsoft 365',
-        logoUrl: 'https://cdn.simpleicons.org/microsoftoffice/D83B01',
+        logoUrl: getSkillIconUrl('Microsoft 365'),
       },
-      { name: 'Networking', logoUrl: 'https://cdn.simpleicons.org/cisco/1BA0D7' },
+      { name: 'Networking', logoUrl: getSkillIconUrl('Networking') },
       {
         name: 'IT Operations',
-        logoUrl: 'https://cdn.simpleicons.org/opsgenie/172B4D',
       },
     ],
   },
   {
     id: 'delta-systems-data-analyst',
-    roleTitle: 'Data Analyst',
+    roleTitle: 'Data Scientist',
     companyName: 'Delta Systems',
     roleType: 'Full-time',
     dateRange: 'Jan 2024 - Jul 2024',
@@ -89,15 +90,46 @@ export const EXPERIENCES: ExperienceItem[] = [
       },
     ],
     technologies: [
-      { name: 'Python', logoUrl: 'https://cdn.simpleicons.org/python/3776AB' },
-      { name: 'SQL', logoUrl: 'https://cdn.simpleicons.org/postgresql/4169E1' },
+      { name: 'Python', logoUrl: getSkillIconUrl('Python') },
+      { name: 'SQL', logoUrl: getSkillIconUrl('SQL') },
       {
         name: 'PostgreSQL',
-        logoUrl: 'https://cdn.simpleicons.org/postgresql/4169E1',
+        logoUrl: getSkillIconUrl('PostgreSQL'),
       },
       {
         name: 'scikit-learn',
-        logoUrl: 'https://cdn.simpleicons.org/scikitlearn/F7931E',
+        logoUrl: getSkillIconUrl('scikit-learn'),
+      },
+    ],
+  },
+  {
+    id: 'software-engineering-internship',
+    roleTitle: 'Software Engineering Intern',
+    companyName: 'KnockOnce',
+    roleType: 'Internship',
+    dateRange: 'Jan 2023 - Mar 2023',
+    highlights: [
+      {
+        text: 'Developed the high-traffic platform sumosave.in from the ground up using provided designs, shipping responsive pages that served nearly 10,000 users.',
+        icon: 'code',
+      },
+      {
+        text: 'Built a scalable backend with MySQL, designing normalized database schemas for partnerships, careers, and admin management.',
+        icon: 'database',
+      },
+      {
+        text: 'Implemented admin-side CRUD workflows for dynamic job posting and content management, enabling non-technical teams to update site content independently.',
+        icon: 'workflow',
+      },
+    ],
+    technologies: [
+      { name: 'HTML5', logoUrl: getSkillIconUrl('HTML5') },
+      { name: 'CSS3', logoUrl: getSkillIconUrl('CSS3') },
+      { name: 'JavaScript', logoUrl: getSkillIconUrl('JavaScript') },
+      { name: 'PHP', logoUrl: getSkillIconUrl('PHP') },
+      { name: 'MySQL', logoUrl: getSkillIconUrl('MySQL') },
+      {
+        name: 'CRUD Admin',
       },
     ],
   },
