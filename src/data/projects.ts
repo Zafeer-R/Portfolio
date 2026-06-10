@@ -3,6 +3,9 @@ import potionWatch from '../assets/potionWatch.png'
 import serverless from '../assets/serverless.jpg'
 import tidalSS from '../assets/tidalSS.png'
 import vehicleListing from '../assets/vehicleListing.png'
+import geoSearch from '../assets/geoSearch.png'
+import terrasight from '../assets/terrasight.png'
+import utdCampusAssistant from '../assets/utd-campus-assistant.png'
 import { getSkillIconUrl } from './skillIcons'
 
 export type ProjectTechnology = {
@@ -75,7 +78,7 @@ export const PROJECTS: ProjectItem[] = [
     title: 'GeoSearch | Search Engine for Geology',
     description:
       'Built a geology-focused search engine with focused web crawling, inverted indexing, multiple relevance models, query expansion, clustering, cluster-aware reranking, and a React/FastAPI interface for comparing search results.',
-    imageUrl: 'src/assets/geoSearch.png',
+    imageUrl: geoSearch,
     codeUrl: 'https://github.com/Zafeer-R/GeoSearch',
     technologies: [
       { name: 'Python', logoUrl: getSkillIconUrl('Python') },
@@ -108,7 +111,7 @@ export const PROJECTS: ProjectItem[] = [
     title: 'TerraSight | Rain Water Harvesting Prospecting Tool',
     description:
       'Developed a map-based prospecting platform that uses computer vision and geospatial analysis to identify commercial buildings across the US suitable for rainwater harvesting installations.',
-    imageUrl: 'src/assets/terrasight.png',
+    imageUrl: terrasight,
     codeUrl: 'https://github.com/Zafeer-R/TerraSight',
     demoUrl: 'https://terrasight-demo.vercel.app',
     technologies: [
@@ -130,7 +133,7 @@ export const PROJECTS: ProjectItem[] = [
     title: 'UTD Campus Assistant | AWS Bedrock Campus Assistant',
     description:
       'Built an AWS-powered campus assistant using Bedrock Knowledge Bases and serverless architecture to deliver retrieval-augmented answers for dining, events, and parking queries.',
-    imageUrl: 'src/assets/utd-campus-assistant.png',
+    imageUrl: utdCampusAssistant,
     codeUrl: 'https://github.com/Zafeer-R/UTD-AI-Campus-Assistant',
     demoUrl: 'https://utd-campus-assistant-demo.vercel.app',
     technologies: [
