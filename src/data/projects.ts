@@ -6,6 +6,7 @@ import vehicleListing from '../assets/vehicleListing.png'
 import geoSearch from '../assets/geoSearch.png'
 import terrasight from '../assets/terrasight.png'
 import utdCampusAssistant from '../assets/utd-campus-assistant.png'
+import realPageAI from '../assets/realPageAI.png'
 import { getSkillIconUrl } from './skillIcons'
 
 export type ProjectTechnology = {
@@ -25,6 +26,39 @@ export type ProjectItem = {
 
 export const PROJECTS: ProjectItem[] = [
   {
+    id: 'realpage-ai',
+    title: 'RealPage AI | Property Intelligence Platform',
+    description:
+      'Built an agentic RAG system where an LLM planner intelligently routes queries across hybrid data sources (PostgreSQL, Neo4j, Qdrant), synthesizes factual answers using constraint-based prompting to prevent hallucination, and maintains persistent conversation memory to enable context-aware follow-ups. Engineered streaming SSE responses, comprehensive test coverage, and production-grade error handling.',
+    imageUrl: realPageAI,
+    codeUrl: 'https://github.com/Zafeer-R/AgenticRAG',
+    technologies: [
+      { name: 'Python', logoUrl: getSkillIconUrl('Python') },
+      { name: 'FastAPI', logoUrl: getSkillIconUrl('FastAPI') },
+      { name: 'LangGraph', logoUrl: getSkillIconUrl('LangGraph') },
+      { name: 'Groq', logoUrl: getSkillIconUrl('Groq') },
+      { name: 'PostgreSQL', logoUrl: getSkillIconUrl('PostgreSQL') },
+      { name: 'Neo4j', logoUrl: getSkillIconUrl('Neo4j') },
+      { name: 'Qdrant', logoUrl: getSkillIconUrl('Qdrant') },
+      { name: 'React', logoUrl: getSkillIconUrl('React') },
+      { name: 'TypeScript', logoUrl: getSkillIconUrl('TypeScript') },
+      { name: 'Zustand', logoUrl: getSkillIconUrl('Zustand') },
+      { name: 'Tailwind CSS' },
+      { name: 'Vite', logoUrl: getSkillIconUrl('Vite') },
+      { name: 'Docker', logoUrl: getSkillIconUrl('Docker') },
+      { name: 'LangChain', logoUrl: getSkillIconUrl('LangChain') },
+      { name: 'LangSmith', logoUrl: getSkillIconUrl('LangSmith') },
+      { name: 'sentence-transformers' },
+      { name: 'httpx', logoUrl: getSkillIconUrl('httpx') },
+      { name: 'Pydantic', logoUrl: getSkillIconUrl('Pydantic') },
+      { name: 'Pytest', logoUrl: getSkillIconUrl('Pytest') },
+      { name: 'Server-Sent Events (SSE)' },
+      { name: 'Agentic RAG' },
+      { name: 'Hybrid Retrieval' },
+      { name: 'LLM Orchestration' },
+    ],
+  },
+  {
     id: 'real-time-entity-intelligence-pipeline',
     title: 'Real-Time Entity Intelligence Pipeline',
     description:
@@ -35,7 +69,7 @@ export const PROJECTS: ProjectItem[] = [
       { name: 'Python', logoUrl: getSkillIconUrl('Python') },
       { name: 'Kafka', logoUrl: getSkillIconUrl('Kafka') },
       { name: 'PySpark', logoUrl: getSkillIconUrl('PySpark') },
-      { name: 'spaCy' },
+      { name: 'spaCy', logoUrl: getSkillIconUrl('spaCy') },
       { name: 'Logstash', logoUrl: getSkillIconUrl('Logstash') },
       {
         name: 'Elasticsearch',
@@ -90,13 +124,13 @@ export const PROJECTS: ProjectItem[] = [
         name: 'scikit-learn',
         logoUrl: getSkillIconUrl('scikit-learn'),
       },
-      { name: 'NumPy' },
-      { name: 'SciPy' },
-      { name: 'NLTK' },
+      { name: 'NumPy', logoUrl: getSkillIconUrl('NumPy') },
+      { name: 'SciPy', logoUrl: getSkillIconUrl('SciPy') },
+      { name: 'NLTK', logoUrl: getSkillIconUrl('NLTK') },
       { name: 'PyStemmer' },
       { name: 'Uvicorn' },
-      { name: 'Pydantic' },
-      { name: 'Requests' },
+      { name: 'Pydantic', logoUrl: getSkillIconUrl('Pydantic') },
+      { name: 'Requests', logoUrl: getSkillIconUrl('Requests') },
       { name: 'SerpAPI' },
       { name: 'TF-IDF' },
       { name: 'BM25' },
@@ -177,7 +211,7 @@ export const PROJECTS: ProjectItem[] = [
       { name: 'Python', logoUrl: getSkillIconUrl('Python') },
       { name: 'Flask', logoUrl: getSkillIconUrl('Flask') },
       { name: 'Pandas' },
-      { name: 'NumPy' },
+      { name: 'NumPy', logoUrl: getSkillIconUrl('NumPy') },
     ],
   },
   {
