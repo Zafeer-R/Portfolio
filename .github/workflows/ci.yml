@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+
+  branch-policy:
+    name: branch-policy
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the branch flow
+        env:
+          BASE: ${{ github.base_ref }}
+          HEAD: ${{ github.head_ref }}
+        run: |
+          set -eu
+          if [ "$BASE" = "main" ]; then
+            case "$HEAD" in
+              develop|hotfix/*) echo "ok: $HEAD -> main" ;;
+              *) echo "::error::Only develop (a release) or hotfix/* may target main. Open this PR against develop."; exit 1 ;;
+            esac
+          elif [ "$BASE" = "develop" ]; then
+            case "$HEAD" in
+              feature/*|fix/*|chore/*|docs/*|refactor/*|test/*|perf/*|ci/*|dependabot/*|main) echo "ok: $HEAD -> develop" ;;
+              *) echo "::error::Branch names must start with feature/, fix/, chore/, docs/, refactor/, test/, perf/ or ci/."; exit 1 ;;
+            esac
+          fi
