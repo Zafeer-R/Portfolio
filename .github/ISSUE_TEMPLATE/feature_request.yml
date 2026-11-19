@@ -1,0 +1,14 @@
+name: Idea or improvement
+description: A change or experiment to try
+labels: [feature]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it helps recruiters or visitors

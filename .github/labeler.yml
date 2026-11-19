@@ -1,0 +1,9 @@
+# Labels come from the branch name and feed the release notes (see release.yml).
+feature:
+  - head-branch: ['^feature/']
+fix:
+  - head-branch: ['^fix/', '^hotfix/']
+chore:
+  - head-branch: ['^chore/', '^ci/', '^refactor/', '^test/', '^perf/']
+documentation:
+  - head-branch: ['^docs/']

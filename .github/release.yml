@@ -1,0 +1,15 @@
+changelog:
+  exclude:
+    labels: [skip-changelog]
+    authors: [dependabot]
+  categories:
+    - title: New
+      labels: [feature]
+    - title: Fixes
+      labels: [fix]
+    - title: Docs
+      labels: [documentation]
+    - title: Maintenance
+      labels: [chore, dependencies]
+    - title: Other changes
+      labels: ['*']
