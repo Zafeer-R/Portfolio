@@ -567,3 +567,18 @@ body { background: transparent; }
 @keyframes vw-in { from { transform: translateY(100%); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes vw-out { from { transform: none; opacity: 1; } to { transform: translateY(-100%); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .vw-in, .vw-out, .pipeline-live i { animation: none; } .vw-out { display: none; } }
+
+/* Hero: send an event */
+.pipeline-mine { fill: #fff; opacity: 0; filter: drop-shadow(0 0 8px var(--teal)) drop-shadow(0 0 14px rgba(0, 210, 190, 0.8)); transition: opacity 0.2s ease; }
+.pipeline-mine.is-on { opacity: 1; }
+.pipeline-node { transition: fill 0.25s ease, stroke 0.25s ease; }
+.is-hot .pipeline-node { fill: rgba(0, 210, 190, 0.28); stroke: #8fe9de; stroke-width: 2; }
+.pipeline-send { display: flex; flex-direction: column; gap: var(--space-150, 12px); padding-top: var(--space-200); border-top: 1px solid var(--glass-border); }
+.pipeline-btn { align-self: flex-start; padding: 10px 20px; font: inherit; font-weight: 600; font-size: 0.95rem; color: #f4f8f9; cursor: pointer; border-radius: 999px; border: 1px solid rgba(0, 210, 190, 0.6); background: rgba(0, 210, 190, 0.16); transition: transform 0.2s ease, background 0.2s ease; }
+.pipeline-btn:hover:not(:disabled) { background: rgba(0, 210, 190, 0.28); transform: translateY(-1px); }
+.pipeline-btn:disabled { opacity: 0.6; cursor: default; }
+.pipeline-btn:focus-visible { outline: 2px solid #8fe9de; outline-offset: 3px; }
+.pipeline-log { list-style: none; margin: 0; padding: 0; min-height: 5.6em; display: flex; flex-direction: column; gap: 3px; font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; color: #c8d1d5; }
+.pipeline-log li { animation: log-in 0.3s ease both; }
+@keyframes log-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .pipeline-log li { animation: none; } }
