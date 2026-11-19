@@ -24,6 +24,54 @@ const rand = (a: number, b: number) => a + Math.random() * (b - a)
 const pick = <T,>(a: T[]) => a[Math.floor(Math.random() * a.length)]
 const ease = (cur: number, to: number, k: number) => cur + (to - cur) * k
 
+const sq = (c: number, e: number) => Math.sign(c) * Math.abs(c) ** e
+
+/** Each shape maps a sphere's longitude and latitude to a point, so lines stay lines while they morph. */
+const SHAPE_FNS: ((th: number, ph: number) => [number, number, number])[] = [
+  (th, ph) => [Math.cos(ph) * Math.cos(th), Math.sin(ph), Math.cos(ph) * Math.sin(th)], // sphere
+  (th, ph) => [0.88 * sq(Math.cos(ph) * Math.cos(th), 0.3), 0.88 * sq(Math.sin(ph), 0.3), 0.88 * sq(Math.cos(ph) * Math.sin(th), 0.3)], // cube
+  (th, ph) => [1.15 * sq(Math.cos(ph) * Math.cos(th), 2.2), 1.15 * sq(Math.sin(ph), 2.2), 1.15 * sq(Math.cos(ph) * Math.sin(th), 2.2)], // star
+  (th, ph) => [(0.68 + 0.3 * Math.cos(2 * ph)) * Math.cos(th), 0.3 * Math.sin(2 * ph), (0.68 + 0.3 * Math.cos(2 * ph)) * Math.sin(th)], // torus
+  (th, ph) => [0.75 * Math.cos(th), Math.sin(ph), 0.75 * Math.sin(th)], // cylinder
+  (th, ph) => [0.95 * (0.5 - 0.5 * Math.sin(ph)) * Math.cos(th), Math.sin(ph), 0.95 * (0.5 - 0.5 * Math.sin(ph)) * Math.sin(th)], // cone
+  (th, ph) => {
+    const k = 1 + 0.32 * Math.sin(3 * th) * Math.cos(2 * ph)
+    return [k * Math.cos(ph) * Math.cos(th), k * Math.sin(ph), k * Math.cos(ph) * Math.sin(th)]
+  }, // lumpy blob
+]
+
+/** Point positions for every shape, indexed by [line][sample], computed once. */
+const SHAPES: Float32Array[] = (() => {
+  const out = SHAPE_FNS.map(() => new Float32Array(LINES * SAMPLES * 3))
+  for (let li = 0; li < LINES; li++) {
+    for (let s = 0; s < SAMPLES; s++) {
+      const u = (s / SAMPLES) * Math.PI * 2
+      let px: number, py: number, pz: number
+      if (li < MERIDIANS) {
+        const lon = (li / MERIDIANS) * Math.PI
+        px = Math.cos(u) * Math.cos(lon)
+        py = Math.sin(u)
+        pz = Math.cos(u) * Math.sin(lon)
+      } else {
+        const lat = ((li - MERIDIANS + 1) / (PARALLELS + 1)) * Math.PI - Math.PI / 2
+        px = Math.cos(lat) * Math.cos(u)
+        py = Math.sin(lat)
+        pz = Math.cos(lat) * Math.sin(u)
+      }
+      const th = Math.atan2(pz, px)
+      const ph = Math.asin(Math.max(-1, Math.min(1, py)))
+      SHAPE_FNS.forEach((f, k) => {
+        const [x, y, z] = f(th, ph)
+        const i = (li * SAMPLES + s) * 3
+        out[k][i] = x
+        out[k][i + 1] = y
+        out[k][i + 2] = z
+      })
+    }
+  }
+  return out
+})()
+
 type Globe = {
   x: number; y: number; hx: number; hy: number; ph: number[]; fq: number[]
   scale: number; scaleTo: number
@@ -34,7 +82,8 @@ type Globe = {
   tiltX: number; tiltXTo: number
   tiltZ: number; tiltZTo: number
   glow: number[]
-  next: { z: number; scale: number; alpha: number; color: number; spin: number; tilt: number; line: number }
+  shapeA: number; shapeB: number; morph: number; morphSpeed: number
+  next: { z: number; scale: number; alpha: number; color: number; spin: number; tilt: number; line: number; shape: number }
 }
 
 const makeGlobe = (w: number, h: number, now: number): Globe => ({
@@ -48,9 +97,10 @@ const makeGlobe = (w: number, h: number, now: number): Globe => ({
   tiltX: rand(-1, 1), tiltXTo: rand(-1.2, 1.2),
   tiltZ: rand(-1, 1), tiltZTo: rand(-1.2, 1.2),
   glow: new Array(LINES).fill(0),
+  shapeA: 0, shapeB: 0, morph: 1, morphSpeed: 0.25,
   next: {
     z: now + rand(6, 14), scale: now + rand(2, 6), alpha: now + rand(3, 8), color: now + rand(4, 10),
-    spin: now + rand(3, 9), tilt: now + rand(4, 10), line: now + rand(0.2, 1),
+    spin: now + rand(3, 9), tilt: now + rand(4, 10), line: now + rand(0.2, 1), shape: now + rand(1, 7),
   },
 })
 
@@ -119,6 +169,15 @@ export default function Orbs() {
       if (t > n.color) { g.colorTo = pick(PALETTE); n.color = t + rand(4, 11) }
       if (t > n.spin) { g.spinTo = rand(-0.9, 0.9); n.spin = t + rand(3, 9) }
       if (t > n.tilt) { g.tiltXTo = rand(-1.3, 1.3); g.tiltZTo = rand(-1.3, 1.3); n.tilt = t + rand(4, 10) }
+      if (t > n.shape && g.morph >= 1) {
+        g.shapeA = g.shapeB
+        do g.shapeB = Math.floor(Math.random() * SHAPES.length)
+        while (g.shapeB === g.shapeA)
+        g.morph = 0
+        g.morphSpeed = rand(0.14, 0.3)
+        n.shape = t + rand(6, 12)
+      }
+      g.morph = Math.min(1, g.morph + dt * g.morphSpeed)
       const k = 1 - Math.exp(-dt * 0.8)
       g.scale = ease(g.scale, g.scaleTo, k)
       g.z = ease(g.z, g.zTo, k * 0.35)
@@ -144,23 +203,16 @@ export default function Orbs() {
       const cz = Math.cos(g.tiltZ), sz = Math.sin(g.tiltZ)
       const cy = Math.cos(g.yaw), sy = Math.sin(g.yaw)
       const [r, gr, b] = g.color.map(Math.round)
+      const m = g.morph * g.morph * (3 - 2 * g.morph) // smoothstep
+      const A = SHAPES[g.shapeA]
+      const B = SHAPES[g.shapeB]
       for (let li = 0; li < LINES; li++) {
-        const meridian = li < MERIDIANS
         const hot = g.glow[li]
         for (let s = 0; s < SAMPLES; s++) {
-          const u = (s / SAMPLES) * Math.PI * 2
-          let px: number, py: number, pz: number
-          if (meridian) {
-            const lon = (li / MERIDIANS) * Math.PI
-            px = Math.cos(u) * Math.cos(lon)
-            py = Math.sin(u)
-            pz = Math.cos(u) * Math.sin(lon)
-          } else {
-            const lat = ((li - MERIDIANS + 1) / (PARALLELS + 1)) * Math.PI - Math.PI / 2
-            px = Math.cos(lat) * Math.cos(u)
-            py = Math.sin(lat)
-            pz = Math.cos(lat) * Math.sin(u)
-          }
+          const i = (li * SAMPLES + s) * 3
+          const px = A[i] + (B[i] - A[i]) * m
+          const py = A[i + 1] + (B[i + 1] - A[i + 1]) * m
+          const pz = A[i + 2] + (B[i + 2] - A[i + 2]) * m
           // spin around the vertical axis, then tilt the whole globe
           let x = px * cy + pz * sy
           let z = -px * sy + pz * cy
@@ -173,7 +225,7 @@ export default function Orbs() {
           const y2 = x * sz + y * cz
           x = x2
           y = y2
-          const depth = (z + 1) / 2 // 1 = facing viewer
+          const depth = Math.max(0, Math.min(1, (z + 1) / 2)) // 1 = facing viewer
           const a = g.alpha * fade * (0.12 + depth * 0.7) * (1 + hot * 1.4)
           const size = (1.3 + depth * 1.1 + hot * 1.8) * dot
           ctx.fillStyle = `rgba(${r},${gr},${b},${Math.min(1, a).toFixed(3)})`
