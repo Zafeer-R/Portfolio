@@ -1,79 +1,40 @@
-import { useEffect, useRef, useState } from 'react'
-import LoaderScreen from './components/LoaderScreen'
-import SiteShell from './components/SiteShell'
+import { useEffect } from 'react'
+import Nav from './components/Nav'
+import Orbs from './components/Orbs'
+import Hero from './sections/Hero'
+import { Experience, Faq, FinalCta, Footer, Process, Projects, Proof, Skills, Tagline } from './sections/Sections'
+import Hud from './f1/Hud'
+import { launchRace } from './f1/race'
+import { useRaceTracker } from './f1/useRaceTracker'
+import { useEasterEggs } from './motion/eggs'
+import { Toast } from './components/ui'
 import './App.css'
 
-const LOADER_DURATION_MS = 2000
-const LOADER_REVEAL_DURATION_MS = 900
-
-type LoaderPhase = 'intro' | 'reveal' | 'done'
-
-function App() {
-  const [loaderPhase, setLoaderPhase] = useState<LoaderPhase>('intro')
-  const appRef = useRef<HTMLDivElement | null>(null)
-
+export default function App() {
+  const { found, toast } = useEasterEggs()
+  useRaceTracker()
   useEffect(() => {
-    const revealTimeoutId = window.setTimeout(() => {
-      setLoaderPhase('reveal')
-    }, LOADER_DURATION_MS)
-
-    const doneTimeoutId = window.setTimeout(() => {
-      setLoaderPhase('done')
-    }, LOADER_DURATION_MS + LOADER_REVEAL_DURATION_MS)
-
-    return () => {
-      window.clearTimeout(revealTimeoutId)
-      window.clearTimeout(doneTimeoutId)
-    }
+    launchRace()
   }, [])
-
-  useEffect(() => {
-    let rafId = 0
-
-    const setProgress = () => {
-      const appElement = appRef.current
-      if (!appElement) {
-        return
-      }
-
-      const scrollLimit =
-        document.documentElement.scrollHeight - window.innerHeight
-      const progress =
-        scrollLimit > 0 ? Math.min(window.scrollY / scrollLimit, 1) : 0
-
-      appElement.style.setProperty('--scroll-progress', String(progress))
-      rafId = 0
-    }
-
-    const handleScroll = () => {
-      if (rafId) {
-        return
-      }
-
-      rafId = window.requestAnimationFrame(setProgress)
-    }
-
-    setProgress()
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('resize', handleScroll)
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', handleScroll)
-
-      if (rafId) {
-        window.cancelAnimationFrame(rafId)
-      }
-    }
-  }, [])
-
   return (
-    <div className="app" ref={appRef}>
-      <SiteShell isReady={loaderPhase === 'done'} />
-      <LoaderScreen isVisible={loaderPhase !== 'done'} phase={loaderPhase} />
-    </div>
+    <>
+      <a className="skip-link body-5" href="#main">Skip to content</a>
+      <Orbs />
+      <Nav />
+      <main id="main">
+        <Hero />
+        <Proof />
+        <Tagline />
+        <Projects />
+        <Process />
+        <Experience />
+        <Skills />
+        <Faq />
+        <FinalCta />
+      </main>
+      <Footer found={found.length} />
+      <Hud />
+      <Toast message={toast} />
+    </>
   )
 }
-
-export default App

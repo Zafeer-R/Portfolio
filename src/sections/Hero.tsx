@@ -1,91 +1,34 @@
-import { useEffect, useState } from 'react'
-import './Hero.css'
+import { ArrowRight, DownloadSimple, LinkedinLogo } from '@phosphor-icons/react'
+import { LINKEDIN_URL, RESUME_URL } from '../data/content'
+import { Button } from '../components/ui'
 
-const ROTATING_WORDS = [
-  'AI systems',
-  'cloud-native products',
-  'real-time data pipelines',
-  'ML platforms',
-  'developer tools',
-] as const
-
-type TypingPhase = 'typing' | 'pausing' | 'deleting'
-
-function Hero() {
-  const [activeWordIndex, setActiveWordIndex] = useState(0)
-  const [typedText, setTypedText] = useState('')
-  const [typingPhase, setTypingPhase] = useState<TypingPhase>('typing')
-
-  useEffect(() => {
-    const activeWord = ROTATING_WORDS[activeWordIndex]
-    let timeoutId = 0
-
-    if (typingPhase === 'typing') {
-      if (typedText.length < activeWord.length) {
-        timeoutId = window.setTimeout(() => {
-          setTypedText(activeWord.slice(0, typedText.length + 1))
-        }, 95)
-      } else {
-        timeoutId = window.setTimeout(() => {
-          setTypingPhase('pausing')
-        }, 700)
-      }
-    }
-
-    if (typingPhase === 'pausing') {
-      timeoutId = window.setTimeout(() => {
-        setTypingPhase('deleting')
-      }, 350)
-    }
-
-    if (typingPhase === 'deleting') {
-      timeoutId = window.setTimeout(() => {
-        if (typedText.length > 0) {
-          setTypedText((prev) => prev.slice(0, -1))
-          return
-        }
-
-        setActiveWordIndex((prev) => (prev + 1) % ROTATING_WORDS.length)
-        setTypingPhase('typing')
-      }, typedText.length > 0 ? 55 : 0)
-    }
-
-    return () => window.clearTimeout(timeoutId)
-  }, [activeWordIndex, typedText, typingPhase])
-
+export default function Hero() {
   return (
-    <section className="hero" id="process">
-      <div className="hero-content">
-        <p className="hero-kicker">Portfolio Website</p>
-        <h1 className="hero-title">
-          Building intelligent, cloud-native systems that transform data into 
-          <span className="hero-accent">real-world impact</span>
-        </h1>
-        {/* <p className="hero-subtitle">
-          AI/ML Engineer | Cloud-Native Systems | Real-Time Data Architect
-        </p>
-        <div className="hero-actions">
-          <button className="primary-button">View work</button>
-          <button className="ghost-button">Download profile</button>
-        </div> */}
-      </div>
-      <div className="hero-panel">
-        <div className="panel-glow" />
-        <div className="panel-inner">
-          <div className="panel-label">Welcome</div>
-          <div className="panel-line" />
-          <p className="welcome-line">Hello 👋 I am Zafeer Rangoonwala</p>
-          <p className="typing-line">
-            Building{' '}
-            <span className="typing-word">
-              {typedText}
-              <span className="typing-cursor" aria-hidden="true" />
-            </span>
+    <section className="hero-pin" id="top" data-stage="top" aria-labelledby="hero-title">
+      <div className="hero-sticky container">
+        <div className="hero-copy glass">
+          <h1 id="hero-title" className="heading-1 hero-title">
+            Data and AI systems
+            <br />
+            built for production
+          </h1>
+          <p className="body-3 text-secondary hero-sub">
+            I am Zafeer Rangoonwala, a software and data engineer who builds real time pipelines and RAG applications. MS in Computer Science from UT Dallas, authorized to work in the US with no sponsorship needed for 3 years.
           </p>
+          <div className="hero-actions">
+            <Button href="#projects" variant="primary" icon={<ArrowRight size={18} weight="bold" aria-hidden />}>
+              View projects
+            </Button>
+            <Button href={RESUME_URL} variant="secondary" download icon={<DownloadSimple size={18} weight="bold" aria-hidden />}>
+              Download resume
+            </Button>
+            <Button href={LINKEDIN_URL} variant="tertiary" external icon={<LinkedinLogo size={18} weight="bold" aria-hidden />}>
+              Message on LinkedIn
+            </Button>
+          </div>
+          <p className="caption-4 text-tertiary hero-proof">Winner of TidalHack 2026 · MS Computer Science, UT Dallas</p>
         </div>
       </div>
     </section>
   )
 }
-
-export default Hero

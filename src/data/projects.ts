@@ -9,226 +9,124 @@ import utdCampusAssistant from '../assets/utd-campus-assistant.png'
 import realPageAI from '../assets/realPageAI.png'
 import { getSkillIconUrl } from './skillIcons'
 
-export type ProjectTechnology = {
-  name: string
-  logoUrl?: string
-}
+export type ProjectTech = { name: string; logoUrl?: string }
 
-export type ProjectItem = {
+export type Project = {
   id: string
   title: string
+  tagline: string
   description: string
   imageUrl: string
+  imageAlt: string
   codeUrl: string
-  demoUrl?: string
-  technologies: ProjectTechnology[]
+  featured?: boolean
+  badge?: string
+  tech: ProjectTech[]
 }
 
-export const PROJECTS: ProjectItem[] = [
+const t = (name: string): ProjectTech => ({ name, logoUrl: getSkillIconUrl(name) })
+
+export const PROJECTS: Project[] = [
   {
-    id: 'realpage-ai',
-    title: 'RealPage AI | Property Intelligence Platform',
+    id: 'traceline',
+    title: 'Traceline',
+    tagline: 'Pipeline anomaly detection',
     description:
-      'Built an agentic RAG system where an LLM planner intelligently routes queries across hybrid data sources (PostgreSQL, Neo4j, Qdrant), synthesizes factual answers using constraint-based prompting to prevent hallucination, and maintains persistent conversation memory to enable context-aware follow-ups. Engineered streaming SSE responses, comprehensive test coverage, and production-grade error handling.',
-    imageUrl: realPageAI,
-    codeUrl: 'https://github.com/Zafeer-R/AgenticRAG',
-    technologies: [
-      { name: 'Python', logoUrl: getSkillIconUrl('Python') },
-      { name: 'FastAPI', logoUrl: getSkillIconUrl('FastAPI') },
-      { name: 'LangGraph', logoUrl: getSkillIconUrl('LangGraph') },
-      { name: 'Groq', logoUrl: getSkillIconUrl('Groq') },
-      { name: 'PostgreSQL', logoUrl: getSkillIconUrl('PostgreSQL') },
-      { name: 'Neo4j', logoUrl: getSkillIconUrl('Neo4j') },
-      { name: 'Qdrant', logoUrl: getSkillIconUrl('Qdrant') },
-      { name: 'React', logoUrl: getSkillIconUrl('React') },
-      { name: 'TypeScript', logoUrl: getSkillIconUrl('TypeScript') },
-      { name: 'Zustand', logoUrl: getSkillIconUrl('Zustand') },
-      { name: 'Tailwind CSS' },
-      { name: 'Vite', logoUrl: getSkillIconUrl('Vite') },
-      { name: 'Docker', logoUrl: getSkillIconUrl('Docker') },
-      { name: 'LangChain', logoUrl: getSkillIconUrl('LangChain') },
-      { name: 'LangSmith', logoUrl: getSkillIconUrl('LangSmith') },
-      { name: 'sentence-transformers' },
-      { name: 'httpx', logoUrl: getSkillIconUrl('httpx') },
-      { name: 'Pydantic', logoUrl: getSkillIconUrl('Pydantic') },
-      { name: 'Pytest', logoUrl: getSkillIconUrl('Pytest') },
-      { name: 'Server-Sent Events (SSE)' },
-      { name: 'Agentic RAG' },
-      { name: 'Hybrid Retrieval' },
-      { name: 'LLM Orchestration' },
-    ],
+      'An ML system that aligns multi year pipeline inspection data, tracks corrosion growth and flags high risk segments through feature matching and predictive analytics.',
+    imageUrl: tidalSS,
+    imageAlt: 'Traceline dashboard showing pipeline inspection anomalies',
+    codeUrl: 'https://github.com/Zafeer-R/Traceline-Anomaly-Detection',
+    featured: true,
+    badge: 'TidalHack 2026 winner',
+    tech: [t('Python'), t('AWS'), t('React'), t('scikit-learn')],
   },
   {
-    id: 'real-time-entity-intelligence-pipeline',
-    title: 'Real-Time Entity Intelligence Pipeline',
+    id: 'realpage-ai',
+    title: 'RealPage AI',
+    tagline: 'Agentic RAG property intelligence',
     description:
-      'Built an end-to-end streaming data pipeline that ingests live financial and news articles, publishes raw events to Kafka, processes them with PySpark Structured Streaming, extracts named entities using spaCy, computes rolling mention counts, indexes the results in Elasticsearch via Logstash, and visualizes top entities in a live Kibana dashboard.',
+      'An LLM planner routes each question across PostgreSQL, Neo4j and Qdrant. Answers stream back through constraint based prompting with persistent conversation memory.',
+    imageUrl: realPageAI,
+    imageAlt: 'RealPage AI chat interface answering a property question',
+    codeUrl: 'https://github.com/Zafeer-R/AgenticRAG',
+    featured: true,
+    tech: [t('Python'), t('FastAPI'), t('LangGraph'), t('Groq'), t('Neo4j'), t('Qdrant')],
+  },
+  {
+    id: 'signaltrace',
+    title: 'SignalTrace',
+    tagline: 'Real time financial news pipeline',
+    description:
+      'Kafka and PySpark Structured Streaming extract entities with spaCy, compute rolling mention counts and feed a live Kibana dashboard through Elasticsearch.',
     imageUrl: kibanaSS,
+    imageAlt: 'Kibana dashboard of top entities in financial news',
     codeUrl: 'https://github.com/Zafeer-R/SignalTrace',
-    technologies: [
-      { name: 'Python', logoUrl: getSkillIconUrl('Python') },
-      { name: 'Kafka', logoUrl: getSkillIconUrl('Kafka') },
-      { name: 'PySpark', logoUrl: getSkillIconUrl('PySpark') },
-      { name: 'spaCy', logoUrl: getSkillIconUrl('spaCy') },
-      { name: 'Logstash', logoUrl: getSkillIconUrl('Logstash') },
-      {
-        name: 'Elasticsearch',
-        logoUrl: getSkillIconUrl('Elasticsearch'),
-      },
-      { name: 'Kibana', logoUrl: getSkillIconUrl('Kibana') },
-      {
-        name: 'Docker Compose',
-        logoUrl: getSkillIconUrl('Docker Compose'),
-      },
-      { name: 'WSL2' },
-    ],
+    tech: [t('Kafka'), t('PySpark'), t('spaCy'), t('Elasticsearch'), t('Kibana')],
   },
   {
     id: 'autotracker',
-    title: 'AutoTracker | Scalable Vehicle Listing Event Pipeline',
+    title: 'AutoTracker',
+    tagline: 'Vehicle listing event pipeline',
     description:
-      'Built an event-driven vehicle listing platform with asynchronous event streaming, DLQ-based error handling, REST APIs, and real-time listing history visualization using Kafka and Spring Boot.',
+      'An event driven listing platform on Kafka and Spring Boot with dead letter queue error handling, REST APIs and real time listing history.',
     imageUrl: vehicleListing,
+    imageAlt: 'AutoTracker vehicle listing history view',
     codeUrl: 'https://github.com/Zafeer-R/Auto-Tracker/tree/main',
-    technologies: [
-      { name: 'Java', logoUrl: getSkillIconUrl('Java') },
-      { name: 'Spring Boot', logoUrl: getSkillIconUrl('Spring Boot') },
-      { name: 'Spring Kafka' },
-      { name: 'Spring Data JPA' },
-      { name: 'Hibernate', logoUrl: getSkillIconUrl('Hibernate') },
-      { name: 'MySQL', logoUrl: getSkillIconUrl('MySQL') },
-      { name: 'Apache Kafka', logoUrl: getSkillIconUrl('Apache Kafka') },
-      { name: 'Docker', logoUrl: getSkillIconUrl('Docker') },
-      { name: 'Maven', logoUrl: getSkillIconUrl('Maven') },
-      { name: 'JUnit' },
-      { name: 'Mockito' },
-      { name: 'React', logoUrl: getSkillIconUrl('React') },
-      { name: 'TypeScript', logoUrl: getSkillIconUrl('TypeScript') },
-      { name: 'Vite', logoUrl: getSkillIconUrl('Vite') },
-    ],
+    tech: [t('Java'), t('Spring Boot'), t('Apache Kafka'), t('MySQL'), t('Docker')],
   },
   {
     id: 'geosearch',
-    title: 'GeoSearch | Search Engine for Geology',
+    title: 'GeoSearch',
+    tagline: 'Search engine for geology',
     description:
-      'Built a geology-focused search engine with focused web crawling, inverted indexing, multiple relevance models, query expansion, clustering, cluster-aware reranking, and a React/FastAPI interface for comparing search results.',
+      'Focused crawling, inverted indexing, BM25 and TF-IDF ranking, query expansion and clustering behind a React and FastAPI interface for comparing results.',
     imageUrl: geoSearch,
+    imageAlt: 'GeoSearch results comparing ranking models',
     codeUrl: 'https://github.com/Zafeer-R/GeoSearch',
-    technologies: [
-      { name: 'Python', logoUrl: getSkillIconUrl('Python') },
-      { name: 'FastAPI', logoUrl: getSkillIconUrl('FastAPI') },
-      { name: 'React', logoUrl: getSkillIconUrl('React') },
-      { name: 'JavaScript', logoUrl: getSkillIconUrl('JavaScript') },
-      { name: 'Vite', logoUrl: getSkillIconUrl('Vite') },
-      {
-        name: 'scikit-learn',
-        logoUrl: getSkillIconUrl('scikit-learn'),
-      },
-      { name: 'NumPy', logoUrl: getSkillIconUrl('NumPy') },
-      { name: 'SciPy', logoUrl: getSkillIconUrl('SciPy') },
-      { name: 'NLTK', logoUrl: getSkillIconUrl('NLTK') },
-      { name: 'PyStemmer' },
-      { name: 'Uvicorn' },
-      { name: 'Pydantic', logoUrl: getSkillIconUrl('Pydantic') },
-      { name: 'Requests', logoUrl: getSkillIconUrl('Requests') },
-      { name: 'SerpAPI' },
-      { name: 'TF-IDF' },
-      { name: 'BM25' },
-      { name: 'PageRank' },
-      { name: 'HITS' },
-      { name: 'MiniBatchKMeans' },
-      { name: 'Agglomerative Clustering' },
-    ],
+    tech: [t('Python'), t('FastAPI'), t('React'), t('scikit-learn')],
   },
   {
     id: 'terrasight',
-    title: 'TerraSight | Rain Water Harvesting Prospecting Tool',
+    title: 'TerraSight',
+    tagline: 'Rainwater harvesting prospecting',
     description:
-      'Developed a map-based prospecting platform that uses computer vision and geospatial analysis to identify commercial buildings across the US suitable for rainwater harvesting installations.',
+      'A map based tool that uses computer vision and geospatial analysis to find commercial buildings across the US that suit rainwater harvesting installations.',
     imageUrl: terrasight,
+    imageAlt: 'TerraSight map highlighting candidate commercial rooftops',
     codeUrl: 'https://github.com/Zafeer-R/TerraSight',
-    demoUrl: 'https://terrasight-demo.vercel.app',
-    technologies: [
-      { name: 'React', logoUrl: getSkillIconUrl('React') },
-      { name: 'TypeScript', logoUrl: getSkillIconUrl('TypeScript') },
-      { name: 'MapLibre GL JS' },
-      { name: 'Zustand' },
-      { name: 'TanStack Query' },
-      { name: 'FastAPI', logoUrl: getSkillIconUrl('FastAPI') },
-      { name: 'PostGIS' },
-      { name: 'YOLO', logoUrl: getSkillIconUrl('YOLO') },
-      { name: 'OpenStreetMap', logoUrl: getSkillIconUrl('OpenStreetMap') },
-      { name: 'Open-Meteo' },
-      { name: 'EPA Benchmarks' },
-    ],
+    tech: [t('React'), t('TypeScript'), t('FastAPI'), t('YOLO'), t('OpenStreetMap')],
   },
   {
     id: 'utd-campus-assistant',
-    title: 'UTD Campus Assistant | AWS Bedrock Campus Assistant',
+    title: 'UTD Campus Assistant',
+    tagline: 'AWS Bedrock retrieval assistant',
     description:
-      'Built an AWS-powered campus assistant using Bedrock Knowledge Bases and serverless architecture to deliver retrieval-augmented answers for dining, events, and parking queries.',
+      'A serverless assistant on Bedrock Knowledge Bases that answers dining, events and parking questions with retrieval augmented generation.',
     imageUrl: utdCampusAssistant,
+    imageAlt: 'UTD Campus Assistant chat answering a parking question',
     codeUrl: 'https://github.com/Zafeer-R/UTD-AI-Campus-Assistant',
-    demoUrl: 'https://utd-campus-assistant-demo.vercel.app',
-    technologies: [
-      { name: 'Python', logoUrl: getSkillIconUrl('Python') },
-      { name: 'AWS API Gateway', logoUrl: getSkillIconUrl('AWS API Gateway') },
-      { name: 'AWS Lambda', logoUrl: getSkillIconUrl('AWS Lambda') },
-      { name: 'Amazon Bedrock', logoUrl: getSkillIconUrl('Amazon Bedrock') },
-      { name: 'AWS S3', logoUrl: getSkillIconUrl('AWS S3') },
-      { name: 'DynamoDB', logoUrl: getSkillIconUrl('DynamoDB') },
-      { name: 'CloudWatch', logoUrl: getSkillIconUrl('CloudWatch') },
-      { name: 'Claude', logoUrl: getSkillIconUrl('Claude') },
-    ],
+    tech: [t('Python'), t('AWS Lambda'), t('Amazon Bedrock'), t('DynamoDB'), t('Claude')],
   },
   {
-    id: 'traceline-pipeline-anomaly',
-    title: 'Traceline - Pipeline Anomaly Detection',
+    id: 'potionwatch',
+    title: 'PotionWatch',
+    tagline: 'Fraud detection system',
     description:
-      'An ML-powered system to align multi-year pipeline inspection data, track corrosion growth, and identify high-risk segments through feature matching and predictive analytics. Winner of TidalHack 2026.',
-    imageUrl: tidalSS,
-    codeUrl: 'https://github.com/Zafeer-R/Traceline-Anomaly-Detection',
-    demoUrl: 'http://tidalfrontend.s3-website-us-east-1.amazonaws.com/',
-    technologies: [
-      { name: 'Python', logoUrl: getSkillIconUrl('Python') },
-      { name: 'AWS', logoUrl: getSkillIconUrl('AWS') },
-      { name: 'React', logoUrl: getSkillIconUrl('React') },
-      {
-        name: 'scikit-learn',
-        logoUrl: getSkillIconUrl('scikit-learn'),
-      },
-    ],
-  },
-  {
-    id: 'potionwatch-fraud-detection',
-    title: 'PotionWatch - Fraud Detection System',
-    description:
-      'A real-time fraud detection platform that identifies suspicious transport transactions and missing records using statistical anomaly detection and time-series analysis across multiple collection sites.',
+      'A real time platform that finds suspicious transport transactions and missing records using statistical anomaly detection and time series analysis across collection sites.',
     imageUrl: potionWatch,
+    imageAlt: 'PotionWatch fraud detection dashboard',
     codeUrl: 'https://github.com/Kartik11082/EOG-HackUTD25',
-    demoUrl: 'http://18.220.118.210/',
-    technologies: [
-      { name: 'Python', logoUrl: getSkillIconUrl('Python') },
-      { name: 'Flask', logoUrl: getSkillIconUrl('Flask') },
-      { name: 'Pandas' },
-      { name: 'NumPy', logoUrl: getSkillIconUrl('NumPy') },
-    ],
+    tech: [t('Python'), t('Flask'), t('NumPy')],
   },
   {
-    id: 'aws-serverless-terraform',
-    title: 'AWS Serverless Application with Terraform',
+    id: 'terraform-serverless',
+    title: 'Serverless on Terraform',
+    tagline: 'Infrastructure as code on AWS',
     description:
-      'A fully reproducible cloud-native application built using Infrastructure as Code, featuring Lambda-based APIs, DynamoDB storage, and static hosting on S3.',
+      'A fully reproducible cloud native application with Lambda APIs, DynamoDB storage and static hosting on S3, all defined as code.',
     imageUrl: serverless,
+    imageAlt: 'Architecture of a serverless application built with Terraform',
     codeUrl: 'https://github.com/Zafeer-R/terraform-todo-app',
-    technologies: [
-      { name: 'AWS', logoUrl: getSkillIconUrl('AWS') },
-      { name: 'Terraform', logoUrl: getSkillIconUrl('Terraform') },
-      { name: 'JavaScript', logoUrl: getSkillIconUrl('JavaScript') },
-      {
-        name: 'DynamoDB',
-        logoUrl: getSkillIconUrl('DynamoDB'),
-      },
-    ],
+    tech: [t('AWS'), t('Terraform'), t('JavaScript'), t('DynamoDB')],
   },
 ]
