@@ -64,10 +64,10 @@ function CountUp({ value }: { value: string }) {
 
 export function Proof() {
   return (
-    <section className="container section proof" data-stage="telemetry" aria-labelledby="tele-title">
+    <section className="container section proof" aria-labelledby="tele-title">
       <Reveal className="section-header">
-        <h2 id="tele-title" className="heading-3">Telemetry from the last stints</h2>
-        <p className="body-3 text-secondary">The numbers I am proudest of, read off the data like a timing screen.</p>
+        <h2 id="tele-title" className="heading-3">Results that count</h2>
+        <p className="body-3 text-secondary">The numbers I am proudest of.</p>
       </Reveal>
       <ul className="stat-grid">
         {STATS.map((s, i) => (
@@ -115,8 +115,7 @@ export function Tagline() {
   }, [])
 
   return (
-    <section className="container section tagline" data-stage="fastest" aria-label="What I do">
-      <p className="timing caption-3"><span aria-hidden="true" className="timing-dot" /> Fastest lap</p>
+    <section className="container section tagline" aria-label="What I do">
       <p className="heading-2 tagline-text">
         {words.map((w, i) => (
           <span key={i} className="word" ref={(el) => { refs.current[i] = el }}>
@@ -129,13 +128,12 @@ export function Tagline() {
 }
 
 /* ---------- Projects: horizontal rail pinned to scroll ---------- */
-function ProjectCard({ p, turn }: { p: Project; turn: number }) {
+function ProjectCard({ p }: { p: Project }) {
   return (
     <>
       <div className="project-media">
         <img src={p.imageUrl} alt={p.imageAlt} loading="lazy" decoding="async" draggable={false} />
         {p.badge && <span className="badge caption-3">{p.badge}</span>}
-        <span className="turn caption-3">Turn {turn}</span>
       </div>
       <div className="project-body">
         <div>
@@ -210,7 +208,7 @@ export function Projects() {
   }, [rail])
 
   return (
-    <section ref={sec} className={rail ? 'rail' : 'section container'} id="projects" data-stage="projects" aria-labelledby="projects-title">
+    <section ref={sec} className={rail ? 'rail' : 'section container'} id="projects" aria-labelledby="projects-title">
       <div className={rail ? 'rail-sticky' : undefined}>
         <div className={rail ? 'container rail-head' : undefined}>
           <Reveal className="section-header">
@@ -223,7 +221,7 @@ export function Projects() {
         <ul ref={track} className={rail ? 'rail-track' : 'project-grid'}>
           {PROJECTS.map((p, i) => (
             <li key={p.id} className={`card project${p.featured ? ' is-featured' : ''}${rail ? '' : ' reveal-static'}`} style={rail ? undefined : { animationDelay: `${(i % 3) * 80}ms` }}>
-              <ProjectCard p={p} turn={i + 1} />
+              <ProjectCard p={p} />
             </li>
           ))}
         </ul>
@@ -236,9 +234,9 @@ export function Projects() {
 /* ---------- Process ---------- */
 export function Process() {
   return (
-    <section className="container section" id="process" data-stage="process" aria-labelledby="process-title">
+    <section className="container section" id="process" aria-labelledby="process-title">
       <Reveal className="section-header">
-        <h2 id="process-title" className="heading-3">Race strategy for every build</h2>
+        <h2 id="process-title" className="heading-3">How I approach every build</h2>
       </Reveal>
       <ol className="step-grid">
         {STEPS.map((s, i) => (
@@ -258,10 +256,10 @@ export function Experience() {
   const list = useRef<HTMLUListElement>(null)
   useScrollProgress(list, 'pass')
   return (
-    <section className="container section" id="experience" data-stage="experience" aria-labelledby="exp-title">
+    <section className="container section" id="experience" aria-labelledby="exp-title">
       <Reveal className="section-header">
         <h2 id="exp-title" className="heading-3">Experience and education</h2>
-        <p className="body-3 text-secondary">Each role is a tire stint: soft for short sprints, hard for the long run.</p>
+        <p className="body-3 text-secondary">Production data and AI work, plus the degree behind it.</p>
       </Reveal>
       <ul ref={list} className="job-list timeline">
         <span className="timeline-line" aria-hidden="true" />
@@ -271,7 +269,6 @@ export function Experience() {
               <h3 className="title-2">{j.org}</h3>
               <p className="body-5 text-secondary">{j.role}</p>
               <p className="caption-4 text-tertiary">{j.when}</p>
-              <p className={`tire tire-${j.tire.toLowerCase()} caption-3`}><span aria-hidden="true" className="tire-dot" />{j.tire} tire stint</p>
             </div>
             <ul className="job-points">
               {j.points.map((pt) => (
@@ -340,9 +337,9 @@ export function Skills() {
   }, [])
 
   return (
-    <section className="container section" id="skills" data-stage="skills" aria-labelledby="skills-title">
+    <section className="container section" id="skills" aria-labelledby="skills-title">
       <Reveal className="section-header">
-        <h2 id="skills-title" className="heading-3">Garage setup</h2>
+        <h2 id="skills-title" className="heading-3">Skills and tools</h2>
         <p className="body-3 text-secondary">Grouped by the part of the system they serve. Move your cursor through them.</p>
       </Reveal>
       <ul ref={grid} className="skill-grid">
@@ -382,10 +379,10 @@ export function Faq() {
     })),
   }
   return (
-    <section className="container section" id="faq" data-stage="faq" aria-labelledby="faq-title">
+    <section className="container section" id="faq" aria-labelledby="faq-title">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       <Reveal className="section-header">
-        <h2 id="faq-title" className="heading-3">Team radio: questions recruiters ask</h2>
+        <h2 id="faq-title" className="heading-3">Questions recruiters ask</h2>
       </Reveal>
       <ul className="faq-grid">
         {FAQS.map((f, i) => (
@@ -412,25 +409,10 @@ export function Faq() {
   )
 }
 
-function Checker() {
-  return (
-    <svg className="checker" width="100%" height="32" aria-hidden="true">
-      <defs>
-        <pattern id="chk" width="32" height="32" patternUnits="userSpaceOnUse">
-          <rect width="16" height="16" fill="#f2f2f2" />
-          <rect x="16" y="16" width="16" height="16" fill="#f2f2f2" />
-        </pattern>
-      </defs>
-      <rect width="100%" height="32" fill="url(#chk)" />
-    </svg>
-  )
-}
-
 export function FinalCta() {
   return (
-    <section className="container section" data-stage="finish" aria-labelledby="cta-title">
+    <section className="container section" aria-labelledby="cta-title">
       <Reveal className="card cta">
-        <Checker />
         <h2 id="cta-title" className="heading-2">
           Hiring for data or AI engineering?
           <br />

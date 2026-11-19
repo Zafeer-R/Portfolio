@@ -45,7 +45,7 @@
   --text-tertiary: #9a9a9a;
   --text-muted: rgba(246, 246, 246, 0.3);
   --text-inverted: #1f1f1f;
-  --text-info: var(--stage, #ff2a1f);
+  --text-info: var(--stage, #00d2be);
   --overlay-md: rgba(72, 72, 72, 0.4);
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);

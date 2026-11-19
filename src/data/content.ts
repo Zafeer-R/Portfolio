@@ -42,7 +42,6 @@ export const JOBS = [
     org: 'The University of Texas at Dallas',
     role: 'Technology and Operations Worker',
     when: 'May 2025 to May 2026',
-    tire: 'Hard',
     points: [
       'Sole IT support for 40+ member international centers, covering hardware, access and device provisioning.',
       'Owned the full asset lifecycle: imaging, onboarding, deprovisioning and issue resolution.',
@@ -52,7 +51,6 @@ export const JOBS = [
     org: 'Delta Systems, Ahmedabad',
     role: 'Data Scientist',
     when: 'Jan 2024 to Jul 2024',
-    tire: 'Medium',
     points: [
       'Built ML workflows with Random Forest, XGBoost and time series forecasting, improving prediction accuracy by 23%.',
       'Automated Python and SQL pipelines that validate 1M+ daily production and equipment records.',
@@ -64,7 +62,6 @@ export const JOBS = [
     org: 'KnockOnce, Remote',
     role: 'Software Engineer Intern',
     when: 'Jan 2023 to Mar 2023',
-    tire: 'Soft',
     points: [
       'Built sumosave.in from the ground up from provided designs, serving nearly 10,000 users.',
       'Designed normalized MySQL schemas and admin CRUD for job postings and content.',

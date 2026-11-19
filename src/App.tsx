@@ -1,24 +1,20 @@
-import { useEffect } from 'react'
+import { useState } from 'react'
+import Intro from './components/Intro'
 import Nav from './components/Nav'
 import Orbs from './components/Orbs'
 import Hero from './sections/Hero'
 import { Experience, Faq, FinalCta, Footer, Process, Projects, Proof, Skills, Tagline } from './sections/Sections'
-import Hud from './f1/Hud'
-import { launchRace } from './f1/race'
-import { useRaceTracker } from './f1/useRaceTracker'
 import { useEasterEggs } from './motion/eggs'
 import { Toast } from './components/ui'
 import './App.css'
 
 export default function App() {
   const { found, toast } = useEasterEggs()
-  useRaceTracker()
-  useEffect(() => {
-    launchRace()
-  }, [])
+  const [welcome, setWelcome] = useState(true)
   return (
     <>
       <a className="skip-link body-5" href="#main">Skip to content</a>
+      {welcome && <Intro onDone={() => setWelcome(false)} />}
       <Orbs />
       <Nav />
       <main id="main">
@@ -33,7 +29,6 @@ export default function App() {
         <FinalCta />
       </main>
       <Footer found={found.length} />
-      <Hud />
       <Toast message={toast} />
     </>
   )
