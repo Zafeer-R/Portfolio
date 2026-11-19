@@ -1,6 +1,6 @@
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/zafeerr/'
 export const GITHUB_URL = 'https://github.com/Zafeer-R'
-export const RESUME_URL = '/Zafeer_Resume.pdf'
+export const RESUME_URL = '/api/resume'
 
 export const NAV_LINKS = [
   { id: 'projects', label: 'Projects' },
