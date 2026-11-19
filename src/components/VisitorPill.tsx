@@ -10,6 +10,9 @@ const seen = () => {
 const remember = () => {
   try { localStorage.setItem(FLAG, '1') } catch { /* private mode: count again next time */ }
 }
+const forget = () => {
+  try { localStorage.removeItem(FLAG) } catch { /* nothing stored */ }
+}
 
 /** Glass pill: a real count (once per browser) and a word that scrolls every 2 seconds. */
 export default function VisitorPill() {
@@ -19,14 +22,17 @@ export default function VisitorPill() {
 
   useEffect(() => {
     let live = true
-    fetch('/api/views', { method: seen() ? 'GET' : 'POST' })
+    // Mark this browser as counted before asking, so a quick reload can't count it twice.
+    const first = !seen()
+    if (first) remember()
+    fetch('/api/views', { method: first ? 'POST' : 'GET' })
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
-      .then((d: { count: number }) => {
-        if (!live) return
-        remember()
-        setCount(d.count)
+      .then((d: { count: number }) => live && setCount(d.count))
+      .catch(() => {
+        // The count did not go through, so let the next visit try again.
+        if (first) forget()
+        if (live) setFailed(true)
       })
-      .catch(() => live && setFailed(true))
     return () => { live = false }
   }, [])
 
