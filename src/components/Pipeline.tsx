@@ -10,6 +10,7 @@ const NODES: Node[] = [
   { label: 'Serve', sub: 'API and RAG', x: 200, y: 176 },
 ]
 const PACKETS = 16
+const TRIP_MS = 3800
 
 // distance along the path through every node
 const SEGS = NODES.slice(1).map((n, i) => {
@@ -17,6 +18,8 @@ const SEGS = NODES.slice(1).map((n, i) => {
   return { a, b: n, len: Math.hypot(n.x - a.x, n.y - a.y) }
 })
 const TOTAL = SEGS.reduce((s, g) => s + g.len, 0)
+// how far along the path each node sits (0 to 1)
+const CUM = NODES.map((_, i) => SEGS.slice(0, i).reduce((s, g) => s + g.len, 0) / TOTAL)
 const at = (p: number) => {
   let d = p * TOTAL
   for (const g of SEGS) {
@@ -34,6 +37,55 @@ const at = (p: number) => {
 export default function Pipeline() {
   const dots = useRef<(SVGCircleElement | null)[]>([])
   const [stats, setStats] = useState({ rate: 1284, lat: 41 })
+  const mine = useRef<SVGCircleElement>(null)
+  const sent = useRef(0)
+  const raf2 = useRef(0)
+  const [active, setActive] = useState(-1)
+  const [running, setRunning] = useState(false)
+  const [log, setLog] = useState<string[]>([])
+
+  useEffect(() => () => cancelAnimationFrame(raf2.current), [])
+
+  /** Send one event through the diagram by hand. The pipeline is simulated, so the log lines are too. */
+  const send = () => {
+    if (running) return
+    const id = ++sent.current
+    const lines = [
+      `Source: emitted event #${id}`,
+      `Kafka: partition ${Math.floor(Math.random() * 6)}, offset ${4800 + Math.floor(Math.random() * 400)}`,
+      'Spark: validated and enriched',
+      'Store: written',
+      `Serve: answered in ${30 + Math.floor(Math.random() * 20)} ms`,
+    ]
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    setLog([])
+    if (still) {
+      setLog(lines)
+      return
+    }
+    setRunning(true)
+    const t0 = performance.now()
+    let shown = 0
+    const fly = (now: number) => {
+      const p = Math.min(1, (now - t0) / TRIP_MS)
+      const [x, y] = at(p)
+      mine.current?.setAttribute('cx', x.toFixed(1))
+      mine.current?.setAttribute('cy', y.toFixed(1))
+      let node = -1
+      CUM.forEach((c, i) => { if (p >= c - 0.001) node = i })
+      if (node + 1 > shown) {
+        shown = node + 1
+        setActive(node)
+        setLog(lines.slice(0, shown))
+      }
+      if (p < 1) {
+        raf2.current = requestAnimationFrame(fly)
+      } else {
+        window.setTimeout(() => { setActive(-1); setRunning(false) }, 700)
+      }
+    }
+    raf2.current = requestAnimationFrame(fly)
+  }
 
   useEffect(() => {
     const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -78,8 +130,9 @@ export default function Pipeline() {
         {Array.from({ length: PACKETS }, (_, i) => (
           <circle key={i} ref={(el) => { dots.current[i] = el }} r="3" className="pipeline-packet" />
         ))}
-        {NODES.map((n) => (
-          <g key={n.label} transform={`translate(${n.x - 50} ${n.y - 22})`}>
+        <circle ref={mine} r="6" className={`pipeline-mine${running ? ' is-on' : ''}`} cx="62" cy="56" />
+        {NODES.map((n, i) => (
+          <g key={n.label} className={i === active ? 'is-hot' : ''} transform={`translate(${n.x - 50} ${n.y - 22})`}>
             <rect width="100" height="44" rx="12" className="pipeline-node" />
             <text x="50" y="19" textAnchor="middle" className="pipeline-label">{n.label}</text>
             <text x="50" y="34" textAnchor="middle" className="pipeline-sub">{n.sub}</text>
@@ -96,6 +149,15 @@ export default function Pipeline() {
           <dd className="heading-5">{stats.lat} ms</dd>
         </div>
       </dl>
+      <div className="pipeline-send">
+        <button type="button" className="pipeline-btn" onClick={send} disabled={running}>
+          {running ? 'Sending…' : 'Send an event'}
+        </button>
+        <ol className="pipeline-log caption-4" aria-live="polite">
+          {log.length === 0 && <li className="text-tertiary">Send one and watch it move through every stage.</li>}
+          {log.map((l) => <li key={l}>{l}</li>)}
+        </ol>
+      </div>
     </aside>
   )
 }
