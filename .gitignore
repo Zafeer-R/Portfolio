@@ -25,6 +25,6 @@ dist-ssr
 .env
 .env.*
 !.env.example
-!supabase/functions/**/.env.example
-supabase/.branches/                                                                                                            
-supabase/.temp/  
+
+.vercel
+.env*
